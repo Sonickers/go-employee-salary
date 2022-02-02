@@ -7,21 +7,20 @@ type Employee struct {
 	Salary              Salary
 }
 
-type Salary struct {
-	Basic      float64
-	AfterRaise float64
+type Salary float64
+
+func (s Salary) AfterRaise() float64 {
+	return CountRaise(float64(s))
 }
 
 func main() {
 	e := Employee{
 		FirstName: "Mike",
 		LastName:  "Hello",
-		Salary: Salary{
-			Basic: 2000,
-		},
+		Salary:    Salary(2000),
 	}
-	fmt.Printf("Employee: %s %s\nBasic Salary:\t%.2f USD\n", e.FirstName, e.LastName, e.Salary.Basic)
-	fmt.Printf("After Raise:\t%.2f USD\n", (CountRaise(e.Salary.Basic)))
+	fmt.Printf("Employee: %s %s\nBasic Salary:\t%.2f USD\n", e.FirstName, e.LastName, e.Salary)
+	fmt.Printf("After Raise:\t%.2f USD\n", e.Salary.AfterRaise())
 }
 
 func CountRaise(salary float64) float64 {
