@@ -1,37 +1,45 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+
+	"github.com/bxcodec/faker/v3"
+)
 
 type Employee struct {
 	FirstName, LastName string
-	Salary              Salary
-}
-
-type Salary float64
-
-func (s Salary) AfterRaise() float64 {
-	return CountRaise(float64(s))
+	Salary              float64
 }
 
 func main() {
-	e := Employee{
-		FirstName: "Mike",
-		LastName:  "Hello",
-		Salary:    Salary(2000),
-	}
-	fmt.Printf("Employee: %s %s\nBasic Salary:\t%.2f USD\n", e.FirstName, e.LastName, e.Salary)
-	fmt.Printf("After Raise:\t%.2f USD\n", e.Salary.AfterRaise())
+	rand.Seed(time.Now().Unix())
+	e := RandomEmployee()
+	fmt.Printf("Employee: %s %s, Salary: %.2f USD\n", e.FirstName, e.LastName, e.Salary)
 }
 
 func CountRaise(salary float64) float64 {
 	var raise float64
 
 	switch {
-	case salary >= 2000:
-		raise = (float64(salary) * 15.5) / 100
-	case salary < 2000:
-		raise = float64(salary*11) / 100
+	case salary >= 5000:
+		raise = (float64(salary) * 11.5) / 100
+	case salary < 5000:
+		raise = float64(salary*15.5) / 100
 	}
 
 	return salary + raise
+}
+
+func RandomEmployee() Employee {
+	return Employee{
+		FirstName: faker.FirstName(),
+		LastName:  faker.LastName(),
+		Salary:    RandomSalary(),
+	}
+}
+
+func RandomSalary() float64 {
+	return rand.Float64() * 10000
 }
