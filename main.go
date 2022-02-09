@@ -24,9 +24,9 @@ func CountRaise(salary float64) float64 {
 
 	switch {
 	case salary >= 5000:
-		raise = (float64(salary) * 11.5) / 100
+		raise = (salary * 11.5) / 100
 	case salary < 5000:
-		raise = float64(salary*15.5) / 100
+		raise = (salary * 15.5) / 100
 	}
 
 	return salary + raise
